@@ -12,11 +12,16 @@ const Card = (props) => {
         <img src={image} width="100" />
       </div>
       <div style={style.cardContent}>
-        <h1>Titulo</h1>
-        <p>Descripcion</p>
+        <h1>{title}</h1>
+        <p>{body}</p>
       </div>
     </div>
   );
+};
+
+Card.defaultProps = {
+  title: "Un Titulo",
+  body: "Una Descripcion",
 };
 
 export default Card;

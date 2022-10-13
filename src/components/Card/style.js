@@ -8,6 +8,7 @@ const style = {
     display: "inline-flex",
     margin: "10px",
     padding: "10px",
+    minWidth: "350px",
   },
   cardLogo: {
     padding: "10px",

@@ -1,8 +1,20 @@
+import React, { useState, useEffect } from "react";
 import Head from "next/head";
 import styles from "../styles/Home.module.css";
 import Card from "../components/Card/Card";
+import axios from "axios";
+import useFetch from "../hooks/useFetch";
 
-export default function Home() {
+function Home() {
+  const { data, loading, error } = useFetch(
+    "https://pokeapi.co/api/v2/pokemon?limit=10&offset=0"
+  );
+
+  if (error) {
+    // show alert
+    console.log(error);
+  }
+
   return (
     <div className={styles.container}>
       <Head>
@@ -12,17 +24,22 @@ export default function Home() {
       </Head>
 
       <main className={styles.main}>
-        <h1 className={styles.title}>Contratenme porfis</h1>
-
-        <div className={styles.grid}>
-          <Card title="hola" body="body" />
-          <Card title="hola" body="body" />
-          <Card />
-          <Card />
-          <Card />
-          <Card />
-        </div>
+        {loading && (
+          <div>
+            <h1 className={styles.title}>Cargando</h1>
+          </div>
+        )}
+        {data && (
+          <div className={styles.grid}>
+            <h1 className={styles.title}>Contratenme porfis</h1>
+            {data.results.map((pokemon, index) => (
+              <Card key={index} title={pokemon.name} body="hola" />
+            ))}
+          </div>
+        )}
       </main>
     </div>
   );
 }
+
+export default Home;
