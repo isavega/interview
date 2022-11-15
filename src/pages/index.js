@@ -3,17 +3,38 @@ import Head from "next/head";
 import styles from "../styles/Home.module.css";
 import Card from "../components/Card/Card";
 import axios from "axios";
-import useFetch from "../hooks/useFetch";
+import color from "../styles/color";
 
 function Home() {
-  const { data, loading, error } = useFetch(
-    "https://pokeapi.co/api/v2/pokemon?limit=10&offset=0"
-  );
+  const [data, setData] = useState("");
 
-  if (error) {
-    // show alert
-    console.log(error);
-  }
+  useEffect(() => {
+    const getData = async () => {
+      try {
+        const response = await axios.get(
+          "https://api.chucknorris.io/jokes/random"
+        );
+        setData(response.data);
+      } catch (error) {
+        console.log("error");
+      }
+    };
+    getData();
+  }, []);
+
+  const submitData = () => {
+    const getData = async () => {
+      try {
+        const response = await axios.get(
+          "https://api.chucknorris.io/jokes/random"
+        );
+        setData(response.data);
+      } catch (error) {
+        console.log("error");
+      }
+    };
+    getData();
+  };
 
   return (
     <div className={styles.container}>
@@ -23,21 +44,22 @@ function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <main className={styles.main}>
-        {loading && (
-          <div>
-            <h1 className={styles.title}>Cargando</h1>
-          </div>
-        )}
-        {data && (
-          <div className={styles.grid}>
-            <h1 className={styles.title}>Contratenme porfis</h1>
-            {data.results.map((pokemon, index) => (
-              <Card key={index} title={pokemon.name} body="hola" />
-            ))}
-          </div>
-        )}
-      </main>
+      {data && (
+        <main className={styles.main}>
+          <Card title="Broma del día jaja" body={data.value} />
+          <button
+            type="button"
+            onClick={submitData}
+            style={{
+              backgroundColor: color.blue[200],
+              width: "300px",
+              height: "30px",
+            }}
+          >
+            Click Me
+          </button>
+        </main>
+      )}
     </div>
   );
 }
